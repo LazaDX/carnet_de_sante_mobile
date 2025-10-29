@@ -257,7 +257,7 @@ class _MeasuresScreenState extends State<MeasuresScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 DropdownButtonFormField<String>(
-                  value: selectedType,
+                  initialValue: selectedType,
                   decoration: const InputDecoration(
                     labelText: 'Type de mesure',
                     prefixIcon: Icon(Icons.medical_information),
@@ -318,7 +318,6 @@ class _MeasuresScreenState extends State<MeasuresScreen> {
 
                 final firebaseService = context.read<FirebaseService>();
 
-                // Crée un map pour update (pas besoin de full objet, juste les changements)
                 final updatedData = {
                   'type': selectedType,
                   'value': double.parse(valueController.text),
@@ -329,7 +328,7 @@ class _MeasuresScreenState extends State<MeasuresScreen> {
                   'notes': notesController.text.isEmpty
                       ? null
                       : notesController.text,
-                  'measuredAt': Timestamp.fromDate(DateTime.now()), // Mise à jour de la date si besoin
+                  'measuredAt': Timestamp.fromDate(DateTime.now()), 
                 };
 
                 try {
@@ -379,7 +378,7 @@ class _MeasuresScreenState extends State<MeasuresScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 DropdownButtonFormField<String>(
-                  value: selectedType,
+                  initialValue: selectedType,
                   decoration: const InputDecoration(
                     labelText: 'Type de mesure',
                     prefixIcon: Icon(Icons.medical_information),
@@ -487,7 +486,7 @@ class _MeasuresScreenState extends State<MeasuresScreen> {
     );
   }
 
-  String _getUnit(String type) { // CORRECTION: Code complet, pas placeholder
+  String _getUnit(String type) { 
     switch (type) {
       case 'weight':
         return 'kg';

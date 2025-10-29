@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../services/firebase_service.dart';
 import '../../models/user.dart' as models;
-import 'package:cloud_firestore/cloud_firestore.dart'; // AJOUT: Pour FieldValue et Timestamp
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -36,17 +37,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Future<void> _selectBirthDate() async {
-    final date = await showDatePicker(
-      context: context,
-      initialDate: DateTime(2000),
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-      locale: const Locale('fr', 'FR'),
-    );
+    print('=== DEBUG: Ouverture du CupertinoDatePicker ==='); 
 
-    if (date != null) {
-      setState(() => _birthDate = date);
-    }
+    showCupertinoModalPopup(
+      context: context,
+      builder: (BuildContext ctx) => Container(
+        height: 250, 
+        color: Theme.of(context).scaffoldBackgroundColor, 
+        child: Column(
+          children: [
+            SizedBox(
+              height: 200,
+              child: CupertinoDatePicker(
+                mode: CupertinoDatePickerMode.date, 
+                initialDateTime: _birthDate ?? DateTime(2000), 
+                minimumDate: DateTime(1900),
+                maximumDate: DateTime.now(),
+                onDateTimeChanged: (DateTime newDate) {
+                  if (mounted) {
+                    setState(() => _birthDate = newDate);
+                  }
+                },
+              ),
+            ),
+            CupertinoButton(
+              child: const Text('OK'),
+              onPressed: () => Navigator.of(ctx).pop(), 
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   // AJOUT: Calcul d'âge intelligent
@@ -107,10 +128,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
         emergencyPhone: null,
       );
 
-      print('=== DEBUG REGISTER ==='); // AJOUT: Trace pour console
+  
       print('Création profil pour userId: ${user.id}');
-      print('User data: ${user.toMap()}'); // Assume toMap dans User
-      print('======================');
+      print('User data: ${user.toMap()}'); 
 
       await firebaseService.createUserProfile(user);
 
@@ -231,12 +251,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 const SizedBox(height: 16),
 
                 // Date de naissance (DÉCOMMENTÉ et ACTIVÉ)
-                InkWell(
+               InkWell(
                   onTap: _selectBirthDate,
                   child: InputDecorator(
                     decoration: const InputDecoration(
                       labelText: 'Date de naissance',
                       prefixIcon: Icon(Icons.calendar_today),
+                      border: OutlineInputBorder(), // Ajoute pour voir les contours (optionnel)
                     ),
                     child: Text(
                       _birthDate != null
@@ -247,12 +268,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 16),
+                ),const SizedBox(height: 16),
 
                 // Genre
                 DropdownButtonFormField<String>(
-                  value: _gender,
+                  initialValue: _gender,
                   decoration: const InputDecoration(
                     labelText: 'Genre',
                     prefixIcon: Icon(Icons.wc),

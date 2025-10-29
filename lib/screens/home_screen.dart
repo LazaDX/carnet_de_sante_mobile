@@ -39,27 +39,27 @@ class _HomeScreenState extends State<HomeScreen> {
           NavigationDestination(
             icon: Icon(Icons.dashboard_outlined),
             selectedIcon: Icon(Icons.dashboard),
-            label: '',
+            label: 'Accueil',
           ),
           NavigationDestination(
             icon: Icon(Icons.monitor_heart_outlined),
             selectedIcon: Icon(Icons.monitor_heart),
-            label: '',
+            label: 'Mesure',
           ),
           NavigationDestination(
             icon: Icon(Icons.medication_outlined),
             selectedIcon: Icon(Icons.medication),
-            label: '',
+            label: 'Traitement',
           ),
           NavigationDestination(
             icon: Icon(Icons.medical_services_outlined),
             selectedIcon: Icon(Icons.medical_services),
-            label: '',
+            label: 'Consultation',
           ),
           NavigationDestination(
             icon: Icon(Icons.vaccines_outlined),
             selectedIcon: Icon(Icons.vaccines),
-            label: '',
+            label: 'Vaccin',
           ),
         ],
       ),
@@ -89,9 +89,7 @@ class DashboardScreen extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => const ProfileScreen(),
-                ),
+                MaterialPageRoute(builder: (context) => const ProfileScreen()),
               );
             },
           ),
@@ -130,10 +128,7 @@ class DashboardScreen extends StatelessWidget {
                   // Statistiques
                   const Text(
                     'Vue d\'ensemble',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 12),
                   FutureBuilder<Map<String, int>>(
@@ -152,10 +147,7 @@ class DashboardScreen extends StatelessWidget {
                   // Actions rapides
                   const Text(
                     'Actions rapides',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 12),
                   _buildQuickActions(context),
@@ -164,10 +156,7 @@ class DashboardScreen extends StatelessWidget {
                   // Traitements actifs
                   const Text(
                     'Traitements en cours',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 12),
                   _buildActiveTreatments(context, userId),
@@ -213,19 +202,12 @@ class DashboardScreen extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     '${user.age} ans',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey[600],
-                    ),
+                    style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                   ),
                 ],
               ),
             ),
-            const Icon(
-              Icons.favorite,
-              color: Colors.red,
-              size: 32,
-            ),
+            const Icon(Icons.favorite, color: Colors.red, size: 32),
           ],
         ),
       ),
@@ -239,7 +221,7 @@ class DashboardScreen extends StatelessWidget {
       crossAxisCount: 2,
       mainAxisSpacing: 12,
       crossAxisSpacing: 12,
-      childAspectRatio: 1.5,
+      childAspectRatio: 1.2,
       children: [
         _buildStatCard(
           'Mesures',
@@ -272,25 +254,20 @@ class DashboardScreen extends StatelessWidget {
   Widget _buildStatCard(String title, int count, IconData icon, Color color) {
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(12),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(icon, size: 32, color: color),
             const SizedBox(height: 8),
             Text(
               '$count',
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             Text(
               title,
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey[600],
-              ),
+              style: TextStyle(fontSize: 14, color: Colors.grey[600]),
             ),
           ],
         ),
@@ -306,7 +283,7 @@ class DashboardScreen extends StatelessWidget {
             'Nouvelle mesure',
             Icons.add_chart,
             Colors.blue,
-                () {
+            () {
               // Navigation vers ajout de mesure
             },
           ),
@@ -317,7 +294,7 @@ class DashboardScreen extends StatelessWidget {
             'Nouveau traitement',
             Icons.medication,
             Colors.green,
-                () {
+            () {
               // Navigation vers ajout de traitement
             },
           ),
@@ -327,11 +304,11 @@ class DashboardScreen extends StatelessWidget {
   }
 
   Widget _buildActionButton(
-      String title,
-      IconData icon,
-      Color color,
-      VoidCallback onTap,
-      ) {
+    String title,
+    IconData icon,
+    Color color,
+    VoidCallback onTap,
+  ) {
     return Card(
       child: InkWell(
         onTap: onTap,
@@ -339,14 +316,17 @@ class DashboardScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(icon, size: 32, color: color),
+              Icon(icon, size: 24, color: color),
               const SizedBox(height: 8),
               Text(
                 title,
                 textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
-                  fontSize: 14,
+                  fontSize: 12,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -399,9 +379,9 @@ class DashboardScreen extends StatelessWidget {
                 subtitle: Text(treatment.frequencyName),
                 trailing: treatment.remainingDays != null
                     ? Chip(
-                  label: Text('${treatment.remainingDays}j'),
-                  backgroundColor: Colors.green.shade100,
-                )
+                        label: Text('${treatment.remainingDays}j'),
+                        backgroundColor: Colors.green.shade100,
+                      )
                     : null,
               ),
             );

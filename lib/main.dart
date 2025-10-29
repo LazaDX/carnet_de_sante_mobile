@@ -6,6 +6,7 @@ import 'services/firebase_service.dart';
 import 'screens/auth/login_screen.dart';
 import 'screens/home_screen.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 

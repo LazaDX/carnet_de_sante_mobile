@@ -497,7 +497,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 children: [
                   // Groupe sanguin
                   DropdownButtonFormField<String>(
-                    value: _bloodGroupController.text.isEmpty
+                    initialValue: _bloodGroupController.text.isEmpty
                         ? null
                         : _bloodGroupController.text,
                     decoration: const InputDecoration(
